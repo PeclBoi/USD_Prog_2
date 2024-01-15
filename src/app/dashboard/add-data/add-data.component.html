@@ -1,0 +1,53 @@
+<form [formGroup]="addChildForm" (ngSubmit)="onSubmit()">
+    <h2>Ihr Kind anmelden!</h2>
+
+    <mat-form-field>
+        <mat-label>Name des Kindes (Vor- und Zuname)</mat-label>
+        <input matInput placeholder="Name" formControlName="name">
+
+        <mat-error *ngIf="addChildForm.get('name').hasError('required')">
+            Bitte einen Namen eingeben
+        </mat-error>
+
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Bitte auswählen</mat-label>
+        <mat-select formControlName="kindergardenId">
+            <mat-option *ngFor="let kindergarden of storeService.kindergardens"
+                [value]="kindergarden.id">{{kindergarden.name}}, {{kindergarden.address}}</mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="addChildForm.get('kindergardenId').hasError('required')">
+            Bitte einen Kindergarten auswählen
+        </mat-error>
+
+    </mat-form-field>
+
+    <mat-form-field formControlName="kindergardenId">
+        <mat-label>Geburtsdatum</mat-label>
+        <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="birthDate">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+
+        <mat-error *ngIf="addChildForm.get('birthDate').hasError('required')">
+            Bitte ein gültiges Geburtsdatum eingeben
+        </mat-error>
+
+    </mat-form-field>
+
+    <button mat-raised-button type="submit">Erfassen</button>
+</form>
+
+<div class="d-flex justify-content-center align-items-center">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Geschafft!</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Ihr Kind wurde erfolgreich Angemeldet.
+    </div>
+  </div>
+</div>

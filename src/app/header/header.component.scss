@@ -1,0 +1,14 @@
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.center-image {
+    margin: 0 auto; /* Center the image horizontally */
+    display: block; /* Ensure the image is a block element for margin auto to work */
+}
+
+.right-button {
+    margin-left: auto; /* Push the button to the right */
+}

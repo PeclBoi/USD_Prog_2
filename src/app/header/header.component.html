@@ -1,0 +1,19 @@
+<mat-menu #menu="matMenu">
+    <button mat-menu-item [routerLink]="['/dashboard']">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>&nbsp;&nbsp;
+    </button>
+    <button mat-menu-item [routerLink]="['/about']">
+        <mat-icon>info</mat-icon>
+        <span>About</span>
+    </button>
+</mat-menu>
+
+<div class="flex">
+    <h1>{{ title }}</h1>
+    <img width="500" src="{{ imagePath }}" class="center-image">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"
+        class="right-button">
+        <mat-icon>menu</mat-icon>
+    </button>
+</div>

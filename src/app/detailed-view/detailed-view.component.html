@@ -1,0 +1,18 @@
+<div class="container" *ngIf="!storeService.isLoading">
+
+    <h1 class="mt-5">{{ this.storeService.kindergardenForId.name }}</h1>
+    
+    <div class="row row-cols-1">
+    <div class="col"><strong>Adresse:</strong> {{ this.storeService.kindergardenForId.address }}</div>
+    <div class="col"><strong>Betreiber:</strong> {{ this.storeService.kindergardenForId.betreiber }}</div>
+        <div class="col"><strong>Typ:</strong> {{ this.storeService.kindergardenForId.typ }}</div>
+    </div>
+
+    <img src="https://cdn.britannica.com/51/141451-050-E76A9D3B/Kindergarten-classroom.jpg" alt="Kindergarten Bild" class="kindergarten-image" style="display: block;">
+
+    <a mat-raised-button [routerLink]="'/dashboard'" color="primary" class="mt-3">Zur Anmeldung</a>
+</div>
+
+<div *ngIf="storeService.isLoading">
+    <mat-spinner style="margin: auto;" />
+</div>

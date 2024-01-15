@@ -1,0 +1,82 @@
+<div class="container" *ngIf="storeService.isDbConnected">
+  <mat-form-field>
+    <mat-label>Filter nach Kindergarten</mat-label>
+    <mat-select [(ngModel)]="selectedKindergarten" (ngModelChange)="filterTable()">
+      <mat-option value="">Alle</mat-option>
+      <mat-option *ngFor="let kindergarden of storeService.kindergardens" [value]="kindergarden.id">
+        {{kindergarden.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Sortierung nach Kindergarten</mat-label>
+    <mat-select [(ngModel)]="selectedSort" (ngModelChange)="filterTable()">
+      <mat-option value="name">Name des Kindes (Alphabetisch)</mat-option>
+      <mat-option value="signUpDate ASC">Anmeldedatum (aufsteigend)</mat-option>
+      <mat-option value="signUpDate DESC">Anmeldedatum (absteigend)</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <table class="table">
+    <thead>
+      <tr class="row mx-0">
+        <th class="col-6">Kindergarten</th>
+        <th class="col-6">Adresse vom Kindergarten</th>
+      </tr>
+    </thead>
+    <ng-container *ngIf="!storeService.isLoading; else loading">
+      <tbody>
+        <tr class="row mx-0" *ngFor="let kindergarden of storeService.kindergardens">
+          <td class="col-6">{{kindergarden.name }}</td>
+          <td class="col-5">{{kindergarden.address}}</td>
+          <td class="col-1 justify-content-end d-flex">
+            <button mat-raised-button color="info" (click)="loadDetailPage(kindergarden.id)">Details</button>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
+  </table>
+<br>
+<br>
+    <table class="table">
+      <thead>
+        <tr class="row mx-0">
+          <th class="col-2">Vor- und Zuname</th>
+          <th class="col-2">Kindergarden</th>
+          <th class="col-2">Adresse vom Kindergarten</th>
+          <th class="col-1">Alter</th>
+          <th class="col-2">Geburtsdatum</th>
+          <th class="col-2">Anmeldedatum</th>
+          <th class="col-1"></th>
+        </tr>
+      </thead>
+      <ng-container *ngIf="!storeService.isLoading; else loading">
+        <tbody>
+          <tr class="row mx-0" *ngFor="let child of storeService.children">
+            <td class="col-2">{{child.name}}</td>
+            <td class="col-2">{{child.kindergarden.name}}</td>
+            <td class="col-2">{{child.kindergarden.address}}</td>
+            <td class="col-1">{{getAge(child.birthDate)}}</td>
+            <td class="col-2">{{child.birthDate | date:'longDate':'':'de-AT'}}</td>
+            <td class="col-2">{{child.signUpDate | date:'longDate':'':'de-AT'}}</td>
+            <td class="col-1 justify-content-end d-flex">
+              <button mat-raised-button color="warn" (click)="cancelRegistration(child.id)">Abmelden</button>
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+    </table>
+
+    <ng-template #loading>
+      <mat-spinner style="margin: auto;" />
+    </ng-template>
+
+    <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="length" [pageSize]="pageSize"
+      [disabled]="disabled" [showFirstLastButtons]="showFirstLastButtons" [hidePageSize]="hidePageSize"
+      [pageIndex]="pageIndex" aria-label="Seite auswählen">
+    </mat-paginator>
+</div>
+
+
+<div class="container" *ngIf="!storeService.isDbConnected">
+  <p>Es konnte keine Verbindung mit der Datenbank hergestellt werden.</p>
+</div>
